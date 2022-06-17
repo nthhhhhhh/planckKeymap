@@ -1,4 +1,4 @@
-/* Copyright 2015-2017 Jack Humbert
+/* Copyright 2015-2021 Jack Humbert
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,6 @@
  */
 
 #include QMK_KEYBOARD_H
-#include "muse.h"
-
 
 enum planck_layers {
   _QWERTY,
@@ -77,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_TAB,    KC_Q,    KC_W,  KC_E,    KC_R,   KC_T,   KC_Y,   KC_U,    KC_I,    KC_O,        KC_P, KC_BSPC,
     CTL_T(KC_ESC),    KC_A,    KC_S,  KC_D,    KC_F,   KC_G,   KC_H,   KC_J,    KC_K,    KC_L, TD(TD_SCLN), KC_QUOT,
           KC_LSPO,    KC_Z,    KC_X,  KC_C,    KC_V,   KC_B,   KC_N,   KC_M, KC_COMM,  KC_DOT, TD(TD_SLSH), KC_RSPC,
-               LV,     BWD, KC_LALT, LOWER, KC_LGUI, KC_SPC, KC_SPC, KC_ENT,   RAISE,  KC_RGUI,    KC_RALT,     FWD 
+               LV,     BWD, KC_LGUI, LOWER, KC_LALT, KC_SPC, KC_SPC, KC_ENT,   RAISE,  KC_RGUI,    KC_RALT,     FWD 
 ),
 
 /* Lower
@@ -94,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = LAYOUT_planck_grid(
 //        0        1        2        3        4        5        6     7        8        9       10       11
      KC_TAB, _______, KC_CAPS,  KC_DOT, _______, _______, _______, KC_7,    KC_8,    KC_9, KC_PMNS, KC_BSPC,
-     KC_DEL,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6, KC_4,    KC_5,    KC_6, KC_PPLS, KC_SLSH,
+     KC_DEL,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6, KC_4,    KC_5,    KC_6, KC_PLUS, KC_SLSH,
     _______,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12, KC_1,    KC_2,    KC_3, KC_PAST,  KC_ENT,
     _______, KC_LCTL, KC_LALT, XXXXXXX, KC_LGUI,  KC_SPC,  KC_SPC, KC_0, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT
 ),
@@ -188,52 +186,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QWERTY:
       if (record->event.pressed) {
-        print("mode just switched to qwerty and this is a huge string\n");
         set_single_persistent_default_layer(_QWERTY);
       }
       return false;
       break;
   }
   return true;
-}
-
-bool muse_mode = false;
-uint8_t last_muse_note = 0;
-uint16_t muse_counter = 0;
-uint8_t muse_offset = 70;
-uint16_t muse_tempo = 50;
-
-bool encoder_update(bool clockwise) {
-  if (muse_mode) {
-    if (IS_LAYER_ON(_RAISE)) {
-      if (clockwise) {
-        muse_offset++;
-      } else {
-        muse_offset--;
-      }
-    } else {
-      if (clockwise) {
-        muse_tempo+=1;
-      } else {
-        muse_tempo-=1;
-      }
-    }
-  } else {
-    if (clockwise) {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_DOWN);
-      #else
-        tap_code(KC_PGDN);
-      #endif
-    } else {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_UP);
-      #else
-        tap_code(KC_PGUP);
-      #endif
-    }
-  }
-    return true;
 }
 
 void dip_switch_update_user(uint8_t index, bool active) {
@@ -246,36 +204,9 @@ void dip_switch_update_user(uint8_t index, bool active) {
             }
             break;
         }
-        case 1:
-            if (active) {
-                muse_mode = true;
-            } else {
-                muse_mode = false;
-            }
     }
 }
 
-// old MACRO
-/* const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
- * {
- *   switch(id) {
- *     case 4: // Back delete
- *       if(record->event.pressed) {
- *         return MACRO(D(LALT), D(RSHIFT), T(LEFT), T(BSPC), END);
- *       } else {
- *         clear_keyboard();
- *       }
- *     break;
- *     case 5: // Forward delete
- *       if(record->event.pressed) {
- *         return MACRO(D(LALT), D(RSHIFT), T(RIGHT), T(BSPC), END);
- *       } else {
- *         clear_keyboard();
- *       }
- *     break;
- *   }
- *   return MACRO_NONE;
- * }; */
 // for leader
 void matrix_scan_user(void) {
 }
