@@ -39,7 +39,6 @@ enum planck_keycodes {
 enum {
     TD_SCLN, // colon / semicolon
     TD_SLSH, // fwd slash / back slash
-    /* TD_FN0,                   */
     TD_QUOT,
     TD_LBRACKET,
     TD_RBRACKET
@@ -50,7 +49,6 @@ qk_tap_dance_action_t
 tap_dance_actions[] = {
   [TD_SCLN]     = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, LSFT(KC_SCLN)),
   [TD_SLSH]     = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_BACKSLASH),
-  /* [TD_FN0]      = ACTION_TAP_DANCE_DOUBLE(KC_FN0 , RESET), */
   [TD_QUOT]     = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),
   [TD_LBRACKET] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),
   [TD_RBRACKET] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR)
