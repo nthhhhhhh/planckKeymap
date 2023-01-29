@@ -176,9 +176,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
-layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _LOWER, _RAISE, _FORWARD);
-}
+/* layer_state_t layer_state_set_user(layer_state_t state) { */
+/*   return update_tri_layer_state(state, _LOWER, _RAISE, _FORWARD); */
+/* } */
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -192,19 +192,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-void dip_switch_update_user(uint8_t index, bool active) {
-    switch (index) {
-        case 0: {
-            if (active) {
-                layer_on(_FORWARD);
-            } else {
-                layer_off(_FORWARD);
-            }
-            break;
-        }
-    }
-}
+/* void dip_switch_update_user(uint8_t index, bool active) { */
+/*     switch (index) { */
+/*         case 0: { */
+/*             if (active) { */
+/*                 layer_on(_FORWARD); */
+/*             } else { */
+/*                 layer_off(_FORWARD); */
+/*             } */
+/*             break; */
+/*         } */
+/*     } */
+/* } */
 
 // for leader
-void matrix_scan_user(void) {
-}
+/* void matrix_scan_user(void) { */
+/* } */
